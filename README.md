@@ -1,6 +1,4 @@
-MVP Android application JongTalad (จองตลาด) ฝั่งผู้ดูแลตลาด
+MVP Android application JongTalad V.MarketAdmin
 
-
-JongTalad เป็น Application จัดการตลาดนัด โดยมีจุดประสงค์เพื่อ
- - ลดภาระของผู้ดูแลตลาดในการจัดการกับข้อมูลของพ่อค้า แม่ค้า
- - ให้พ่อค้าแม่ค้าสามารถจองพื้นที่ตลาดนัดได้โดยผ่านโทรศัพท์มือถือ
+“JongTalad” is an application for booking a lock market. 
+Merchants can reserve a locked area without having to travel to the market.
