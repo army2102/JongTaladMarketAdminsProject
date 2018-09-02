@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="สมัครสมาชิก"
+                android:text="@string/REGISTER"
                 android:textColor="@color/text_color"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -59,7 +59,7 @@
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ชื่อ"
+                    android:hint="Firstname"
                     android:inputType="textPersonName"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/text_color" />
@@ -68,7 +68,7 @@
                     android:id="@+id/etSurname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="นามสกุล"
+                    android:hint="Lastname"
                     android:inputType="textPersonName"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/text_color" />
@@ -77,7 +77,7 @@
                     android:id="@+id/etPhonenumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="เบอร์โทรศัพท์"
+                    android:hint="Phonenumber"
                     android:inputType="phone"
                     android:maxLength="10"
                     android:textColor="@color/text_color"
@@ -87,7 +87,7 @@
                     android:id="@+id/etMarketName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ชื่อตลาด"
+                    android:hint="Market Name"
                     android:inputType="text"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/text_color" />
@@ -96,7 +96,7 @@
                     android:id="@+id/etMarketAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ที่อยู่ตลาด"
+                    android:hint="Market Address"
                     android:inputType="textMultiLine"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/text_color" />
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="สมัครสมาชิก" />
+                android:text="SUBMIT" />
 
 
         </LinearLayout>

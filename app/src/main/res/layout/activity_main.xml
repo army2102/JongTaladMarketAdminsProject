@@ -43,7 +43,7 @@
             android:id="@+id/btnMarketList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="รายชื่อตลาด" />
+            android:text="Market List" />
 
         <!--<Button-->
             <!--android:id="@+id/btnProfile"-->

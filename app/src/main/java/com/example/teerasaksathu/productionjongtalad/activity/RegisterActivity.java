@@ -26,6 +26,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -35,8 +38,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-//TODO :success test register
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+    // ALL COMMENT ARE FOR DISABLE UPLOAD IMAGE TO FIREBASE LOGIC
+
     private EditText etName;
     private EditText etSurname;
     private EditText etPhonenumber;
@@ -76,132 +80,127 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         if (view == btnRegister) {
             if (registerChecking()) {
-                String name = etName.getText().toString().trim();
-                String surname = etSurname.getText().toString().trim();
-                String phonenumber = etPhonenumber.getText().toString().trim();
-                final String marketName = etMarketName.getText().toString().trim();
+                String marketAdminName = etName.getText().toString().trim();
+                String marketAdminSurname = etSurname.getText().toString().trim();
+                String marketAdminPhonenumber = etPhonenumber.getText().toString().trim();
+                String marketName = etMarketName.getText().toString().trim();
                 String marketAddress = etMarketAddress.getText().toString().trim();
 
                 Register register = new Register();
-                register.execute(name, surname, phonenumber, marketName, marketAddress);
+                register.execute(marketAdminName, marketAdminSurname, marketAdminPhonenumber, marketName, marketAddress);
 
-                if (filePath != null) {
-                    mStorageRef = FirebaseStorage.getInstance().getReference();
-                    Uri file = Uri.fromFile(new File(filePath));
-                    StorageReference riversRef = mStorageRef.child("MarketAdmins/" + marketName);
-
-                    riversRef.putFile(file)
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    // Get a URL to the uploaded content
-                                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
-                                    UploadProfileImage uploadProfileImage = new UploadProfileImage();
-                                    uploadProfileImage.execute(marketName, downloadUrl.toString());
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    // Handle unsuccessful uploads
-                                    // ...
-                                }
-                            });
-
-                }
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                builder.setTitle("ทำการสมัครเสร็จสิ้น !!")
-                        .setMessage("ขอบคุณสำหรับการสมัครมากชิกทางทีมงานจะทำการติดต่อกลับไปภายใน 24 ชม.")
-                        .setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                builder.setMessage("โปรดกรอกข้อมูลให้ครบทุกช่อง")
-                        .setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+//                if (filePath != null) {
+//                    mStorageRef = FirebaseStorage.getInstance().getReference();
+//                    Uri file = Uri.fromFile(new File(filePath));
+//                    StorageReference riversRef = mStorageRef.child("MarketAdmins/" + marketName);
+//
+//                    riversRef.putFile(file)
+//                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                                @Override
+//                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                                    // Get a URL to the uploaded content
+//                                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//
+//                                    UploadProfileImage uploadProfileImage = new UploadProfileImage();
+//                                    uploadProfileImage.execute(marketName, downloadUrl.toString());
+//                                }
+//                            })
+//                            .addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception exception) {
+//                                    // Handle unsuccessful uploads
+//                                    // ...
+//                                }
+//                            });
+//
+//                }
             }
-
-        } else if (view == btnUploadImage) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_PICK);
-            startActivityForResult(Intent.createChooser(intent, "โปรดเลือกรูป"), 1);
         }
+//        else if (view == btnUploadImage) {
+//            Intent intent = new Intent();
+//            intent.setType("image/*");
+//            intent.setAction(Intent.ACTION_PICK);
+//            startActivityForResult(Intent.createChooser(intent, "โปรดเลือกรูป"), 1);
+//        }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == 1) && (resultCode == RESULT_OK)) {
-            Log.d("MyFrienfV1 ", "Result ==>OK");
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if ((requestCode == 1) && (resultCode == RESULT_OK)) {
+//            Log.d("MyFrienfV1 ", "Result ==>OK");
+//
+//            //หา path รูป
+//            Uri uri = data.getData();
+//            filePath = myFindPathImage(uri);
+//            Log.d("MyFrienfV1", "imagePathString ==>" + filePath);
+//            //result Complete
+//
+//            //Setup Image to ImageView
+//            try {
+//                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+//                ivImg.setImageBitmap(bitmap);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }//try
+//
+//
+//        }//if
+//    }
 
-            //หา path รูป
-            Uri uri = data.getData();
-            filePath = myFindPathImage(uri);
-            Log.d("MyFrienfV1", "imagePathString ==>" + filePath);
-            //result Complete
-
-            //Setup Image to ImageView
-            try {
-                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-                ivImg.setImageBitmap(bitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }//try
-
-
-        }//if
-    }
-
-    private String myFindPathImage(Uri uri) {
-        String strResult = null;
-        String[] strings = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, strings, null, null, null);
-        if (cursor != null) {
-
-            cursor.moveToFirst();
-            int intIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            strResult = cursor.getString(intIndex);
-
-        } else {
-
-            strResult = uri.getPath();
-
-        }
-        return strResult;
-    }
+//    private String myFindPathImage(Uri uri) {
+//        String strResult = null;
+//        String[] strings = {MediaStore.Images.Media.DATA};
+//        Cursor cursor = getContentResolver().query(uri, strings, null, null, null);
+//        if (cursor != null) {
+//
+//            cursor.moveToFirst();
+//            int intIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//            strResult = cursor.getString(intIndex);
+//
+//        } else {
+//
+//            strResult = uri.getPath();
+//
+//        }
+//        return strResult;
+//    }
 
     private boolean registerChecking() {
         int count = 0;
         if (etName.getText().toString().length() == 0) {
             count++;
-            return false;
         }
 
         if (etSurname.getText().toString().length() == 0) {
             count++;
+        }
+
+        if (etMarketName.getText().toString().length() == 0) {
+            count++;
+        }
+
+        if (etMarketAddress.getText().toString().length() == 0) {
+            count++;
+        }
+
+        if (count > 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+            builder.setMessage("Please fill up the form")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
             return false;
         }
 
-        if (etPhonenumber.getText().toString().length() == 0) {
+        if (etPhonenumber.getText().toString().length() == 0 || etPhonenumber.getText().toString().length() < 10) {
             AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-            builder.setMessage("กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก")
+            builder.setMessage("Phonenumber must have 10 character")
                     .setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -213,29 +212,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return false;
         }
 
-        if (etMarketName.getText().toString().length() == 0) {
-            count++;
-            return false;
-        }
 
-        if (etMarketAddress.getText().toString().length() == 0) {
-            count++;
-            return false;
-        } else
-            return true;
+        return true;
     }
 
     private class Register extends AsyncTask<String, Void, String> {
-        public static final String URL = "http://www.jongtalad.com/doc/phpNew/register_market_admin.php";
+        public static final String URL = "https://jongtalad-web-api.herokuapp.com/auth/register/marketadmin";
 
         @Override
         protected String doInBackground(String... value) {
             OkHttpClient okHttpClient = new OkHttpClient();
 
             RequestBody requestBody = new FormBody.Builder()
-                    .add("name", value[0])
-                    .add("surname", value[1])
-                    .add("phonenumber", value[2])
+                    .add("marketAdminName", value[0])
+                    .add("marketAdminSurname", value[1])
+                    .add("marketAdminPhonenumber", value[2])
                     .add("marketName", value[3])
                     .add("marketAddress", value[4])
                     .build();
@@ -261,36 +252,62 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_LONG);
-        }
-    }
-
-    private class UploadProfileImage extends AsyncTask<String, Void, String> {
-        public static final String URL = "http://www.jongtalad.com/doc/phpNew/upload_profile_image.php";
-
-
-        @Override
-        protected String doInBackground(String... values) {
-            OkHttpClient okHttpClient = new OkHttpClient();
-            RequestBody requestBody = new FormBody.Builder()
-                    .add("marketName", values[0])
-                    .add("pictureUrl", values[1])
-                    .build();
-            Request request = new Request.Builder()
-                    .url(URL)
-                    .post(requestBody)
-                    .build();
+            int resCode = 0;
             try {
-                Response response = okHttpClient.newCall(request).execute();
-                if (response.isSuccessful()) {
-                    return response.body().string();
-                } else {
-                    return "Not Success - code : " + response.code();
-                }
-            } catch (IOException e) {
+                JSONObject obj = new JSONObject(s);
+                resCode = obj.getInt("code");
+
+            } catch (JSONException e) {
                 e.printStackTrace();
-                return "Error - " + e.getMessage();
             }
+
+            if (resCode == 201) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("Thank you for your attention!")
+                        .setMessage("We will contact you back in 24 hr.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Something went wrong please contact admin", Toast.LENGTH_LONG).show();
+            }
+
+
         }
     }
+
+//    private class UploadProfileImage extends AsyncTask<String, Void, String> {
+//        public static final String URL = "http://www.jongtalad.com/doc/phpNew/upload_profile_image.php";
+//
+//
+//        @Override
+//        protected String doInBackground(String... values) {
+//            OkHttpClient okHttpClient = new OkHttpClient();
+//            RequestBody requestBody = new FormBody.Builder()
+//                    .add("marketName", values[0])
+//                    .add("pictureUrl", values[1])
+//                    .build();
+//            Request request = new Request.Builder()
+//                    .url(URL)
+//                    .post(requestBody)
+//                    .build();
+//            try {
+//                Response response = okHttpClient.newCall(request).execute();
+//                if (response.isSuccessful()) {
+//                    return response.body().string();
+//                } else {
+//                    return "Not Success - code : " + response.code();
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return "Error - " + e.getMessage();
+//            }
+//        }
+//    }
 }

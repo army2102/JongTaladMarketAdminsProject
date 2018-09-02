@@ -18,4 +18,7 @@
     <string name="title_activity_market_list">MarketListActivity</string>
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
+    <string name="LOGIN">Login</string>
+    <string name="REGISTER">Register</string>
+    <string name="V_MARKET_ADMIN">V. Market Admin</string>
 </resources>

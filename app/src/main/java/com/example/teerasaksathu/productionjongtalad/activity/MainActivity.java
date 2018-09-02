@@ -20,7 +20,7 @@ import com.example.teerasaksathu.productionjongtalad.R;
 import com.example.teerasaksathu.productionjongtalad.fragment.MarketListFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static Intent intentUsername;
+    public static Intent intent;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initInstances() {
-        intentUsername = getIntent();
+        intent = getIntent();
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.string.open_drawer,
                 R.string.close_drawer);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        getSupportActionBar().setTitle("จองตลาด");
+        getSupportActionBar().setTitle("Jongtalad");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

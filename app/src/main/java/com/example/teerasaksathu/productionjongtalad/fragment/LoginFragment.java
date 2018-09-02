@@ -1,5 +1,6 @@
 package com.example.teerasaksathu.productionjongtalad.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,10 @@ import android.widget.Toast;
 import com.example.teerasaksathu.productionjongtalad.R;
 import com.example.teerasaksathu.productionjongtalad.activity.MainActivity;
 import com.example.teerasaksathu.productionjongtalad.activity.RegisterActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -39,6 +44,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private EditText etPassword;
     private String username;
     private String password;
+    private ProgressDialog loadingAuthDialog;
 
     public LoginFragment() {
         super();
@@ -129,12 +135,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private class Login extends AsyncTask<String, Void, String> {
 
-        private static final String URL = "http://www.jongtalad.com/doc/phpNew/login.php";
+        private static final String URL = "https://jongtalad-web-api.herokuapp.com/auth/login/marketadmin/";
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(getActivity(), "Loading...", Toast.LENGTH_SHORT).show();
+            loadingAuthDialog = ProgressDialog.show(getContext(),"Checking", "Loading...", true, false);
         }
 
         @Override
@@ -168,19 +174,35 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("Post", "==>" + s);
-            if (s.equals("1")) {
-                Toast.makeText(getActivity(), "Login สำเร็จ", Toast.LENGTH_SHORT).show();
+            Log.d("Response", "==>" + s);
+            JSONObject res;
+            int marketAdminId = 0;
+            int resCode = 404;
+
+            try {
+                res = new JSONObject(s);
+                resCode = res.getInt("code");
+                marketAdminId = res.getJSONArray("response").getJSONObject(0).getInt("marketAdminId");
+
+                Log.d("ResponseAfterParse", "==>" + marketAdminId);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            loadingAuthDialog.dismiss();
+            if (resCode == 200) {
+                Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
                 SharedPreferences prefs = getActivity().getSharedPreferences("user_token", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("logined", username);
+                editor.putInt("logined", marketAdminId);
                 editor.apply();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("username", username);
+                intent.putExtra("marketAdminId", marketAdminId);
                 startActivity(intent);
                 getActivity().finish();
             } else {
-                Toast.makeText(getActivity(), "Username หรือ Password ผิด", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Wrong username or password", Toast.LENGTH_SHORT).show();
             }
         }
     }

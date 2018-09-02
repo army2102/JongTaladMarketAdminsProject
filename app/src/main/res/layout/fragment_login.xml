@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="V. ผู้ดูแลตลาด"
+                android:text="@string/V_MARKET_ADMIN"
                 android:textColor="@color/text_color"
                 android:textStyle="bold" />
 
@@ -76,13 +76,13 @@
                 android:id="@+id/btnLoginPage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ล็อกอิน" />
+                android:text="@string/LOGIN" />
 
             <Button
                 android:id="@+id/btnRegisterPage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="สมัครสมาชิก" />
+                android:text="@string/REGISTER" />
 
         </LinearLayout>
 
